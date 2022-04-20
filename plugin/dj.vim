@@ -10,11 +10,11 @@ function Venv_Config()
         let venv = ".env"
     endif
 
-    let vpath = "bin\\"
+    let vpath = "/bin/"
     if has("win32") == 1
-        let vpath = "Scripts\\"
+        let vpath = "\\Scripts\\"
     elseif has("macunix") == 1 || has("unix") == 1
-        let vpath = "bin/activate.sh"
+        let vpath = "/bin/"
     endif 
     return [venv, vpath]
 endfunction
@@ -23,21 +23,21 @@ function! Runserver()
     let x = Venv_Config()
     let venv = x[0]
     let vpath = x[1]
-    execute ":term ".venv."\\".vpath."python manage.py runserver"
+    execute ":term ".venv.vpath."python manage.py runserver"
 endfunction
 
 function! Make_Migrations()
     let x = Venv_Config()
     let venv = x[0]
     let vpath = x[1]
-    execute ":term ".venv."\\".vpath."python manage.py makemigrations"
+    execute ":term ".venv.vpath."python manage.py makemigrations"
 endfunction
 
 function! Migrate()
     let x = Venv_Config()
     let venv = x[0]
     let vpath = x[1]
-    execute ":term ".venv."\\".vpath."python manage.py migrate"
+    execute ":term ".venv.vpath."python manage.py migrate"
 endfunction
 
 function! Add_App(name)
@@ -49,7 +49,7 @@ function! Create_app()
     let x = Venv_Config()
     let venv = x[0]
     let vpath = x[1]
-    execute ":term ".venv."\\".vpath."python manage.py startapp ".name
+    execute ":term ".venv.vpath."python manage.py startapp ".name
     let name = "\"".name."\""
     call Add_App(name)
 endfunction
@@ -58,10 +58,15 @@ function! Run_Shell()
     let x = Venv_Config()
     let venv = x[0]
     let vpath = x[1]
-    execute ":term ".venv."\\".vpath."python manage.py shell"
+    execute ":term ".venv.vpath."python manage.py shell"
+endfunction
+
+function! Edit_Settings()
+    execute ":e **\\settings.py"
 endfunction
 
 nnoremap <leader>rs :call Runserver()<CR>
 nnoremap <leader>mm :call Make_Migrations()<CR>
 nnoremap <leader>mg :call Migrate()<CR>
 nnoremap <leader>app :call Create_app()<CR>
+nnoremap <leader>esg :call Edit_Settings()<CR>
