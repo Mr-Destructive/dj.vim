@@ -1,3 +1,9 @@
+function Create_Project()
+    let venv = ".venv"
+    let project_name = input("Enter the project name: ")
+    exe ":term django-admin startproject ".project_name." ."
+endfunction
+
 function Venv_Config()
     let venv = "env"
     if isdirectory("venv") == 1
@@ -65,8 +71,10 @@ function! Edit_Settings()
     execute ":e **\\settings.py"
 endfunction
 
+
+nnoremap <leader>dj :call Create_Project()<CR>
+nnoremap <leader>app :call Create_app()<CR>
+nnoremap <leader>esg :call Edit_Settings()<CR>
 nnoremap <leader>rs :call Runserver()<CR>
 nnoremap <leader>mm :call Make_Migrations()<CR>
 nnoremap <leader>mg :call Migrate()<CR>
-nnoremap <leader>app :call Create_app()<CR>
-nnoremap <leader>esg :call Edit_Settings()<CR>
