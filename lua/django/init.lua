@@ -55,7 +55,7 @@ function M.Create_Project()
     end
     activate_cmd = Activate_Venv()
     create_cmd = Create_Venv()
-    vim.cmd("term mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name)
+    vim.cmd("term mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name .. " . ")
 end
 
 function M.Run_Server()
@@ -65,6 +65,27 @@ function M.Run_Server()
   end
   local activate_cmd = Activate_Venv()
   vim.cmd("term " .. activate_cmd .. " && python manage.py runserver")
+end
+
+function M.Start_Shell()
+  local activate_cmd = Activate_Venv()
+  vim.cmd("term " .. activate_cmd .. "&& python manage.py shell")
+end
+
+function M.Makemigrations()
+  local activate_cmd = Activate_Venv()
+  vim.cmd("term " .. activate_cmd .. "&& python manage.py makemigrations")
+end
+
+function M.Migrate()
+  local activate_cmd = Activate_Venv()
+  vim.cmd("term " .. activate_cmd .. "&& python manage.py migrate")
+end
+
+function M.Start_App()
+  local activate_cmd = Activate_Venv()
+  local app_name = vim.fn.input("App name: ")
+  vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
 end
 
 return M
