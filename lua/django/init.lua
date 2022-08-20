@@ -88,4 +88,14 @@ function M.Start_App()
   vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
 end
 
+function M.Collectstatic()
+  local activate_cmd = Activate_Venv()
+  vim.cmd("term " .. activate_cmd .. "&& python manage.py collectstatic")
+end
+
+function M.CreateSuperUser()
+  local activate_cmd = Activate_Venv()
+  vim.cmd("term " .. activate_cmd .. "&& python manage.py createsuperuser")
+end
+
 return M
