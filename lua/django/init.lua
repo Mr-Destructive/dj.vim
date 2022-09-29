@@ -1,5 +1,62 @@
 local M = {}
 
+local _config = {
+  command = nil, 
+  layout = 'center',
+  width = 0.8,
+  height = 0.8,
+  row = 0,
+  col = 0,
+  win_api = { style = 'minimal', relative = 'editor' },
+  keymaps = { exit = '<A-q>', normal = '<A-n>' },
+  name = 'fterm',
+  bg_color = nil, 
+  border_hl = nil,
+}
+
+local function window_config(width, height)
+  if vim.api.nvim_call_function('has', {'nvim-0.5.0'}) == 1 then
+    local border = vim.g.workbench_border or "double"
+    return {
+      relative = "editor",
+      width = width,
+      height = height,
+      col = (ui.width - width) / 2,
+      row = (ui.height - height) / 2,
+      style = 'minimal',
+      focusable = true,
+      border = border
+    }
+  else
+    return {
+      relative = "editor",
+      width = width,
+      height = height,
+      col = (ui.width - width) / 2,
+      row = (ui.height - height) / 2,
+      style = 'minimal',
+      focusable = true,
+    }
+  end
+end
+
+local function configure_term(command)
+  ui = vim.api.nvim_list_uis()[1]
+  local width = math.floor((ui.width * 0.5)+ .5)
+  local height = math.floor((ui.height * 0.5) + 5)
+  local config = vim.tbl_deep_extend(
+      'force',
+      vim.deepcopy(_config),
+      config or {}
+    )
+  local term = { on_exit = config.on_exit }
+  term.buffer = vim.api.nvim_create_buf(true, false)
+  local win = vim.api.nvim_open_win(term.buffer, true, window_config(width, height))
+  config.command = command
+  run_command = command
+  vim.fn.termopen(run_command or { vim.opt.shell:get() }, config)
+end
+
 local function Detect_OS()
   local vpath = "/bin/"
   if vim.fn.has("win32") then 
@@ -47,15 +104,16 @@ local function Create_Venv()
 end
 
 function M.Create_Project()
-    local venv = ".venv"
-    local project_name = vim.fn.input("Project name: ")
-    Venv_Config()
-    if not Venv_Config() then
-      Create_Venv()
-    end
-    activate_cmd = Activate_Venv()
-    create_cmd = Create_Venv()
-    vim.cmd("term mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name .. " . ")
+  local venv = ".venv"
+  local project_name = vim.fn.input("Project name: ")
+  Venv_Config()
+  if not Venv_Config() then
+    Create_Venv()
+  end
+  activate_cmd = Activate_Venv()
+  create_cmd = Create_Venv()
+  configure_term("mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name .. " . ")
+  --vim.cmd("term mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name .. " . ")
 end
 
 function M.Run_Server()
@@ -64,38 +122,45 @@ function M.Run_Server()
     Create_Venv()
   end
   local activate_cmd = Activate_Venv()
-  vim.cmd("term " .. activate_cmd .. " && python manage.py runserver")
+  configure_term(activate_cmd .. "&& python manage.py runserver")
+  --vim.cmd("term " .. activate_cmd .. " && python manage.py runserver")
 end
 
 function M.Start_Shell()
   local activate_cmd = Activate_Venv()
-  vim.cmd("term " .. activate_cmd .. "&& python manage.py shell")
+  configure_term(activate_cmd .. "&& python manage.py shell")
+  --vim.cmd("term " .. activate_cmd .. "&& python manage.py shell")
 end
 
 function M.Makemigrations()
   local activate_cmd = Activate_Venv()
-  vim.cmd("term " .. activate_cmd .. "&& python manage.py makemigrations")
+  configure_term(activate_cmd .. "&& python manage.py makemigrations")
+  --vim.cmd("term " .. activate_cmd .. "&& python manage.py makemigrations")
 end
 
 function M.Migrate()
   local activate_cmd = Activate_Venv()
-  vim.cmd("term " .. activate_cmd .. "&& python manage.py migrate")
+  configure_term(activate_cmd .. "&& python manage.py migrate")
+  --vim.cmd("term " .. activate_cmd .. "&& python manage.py migrate")
 end
 
 function M.Start_App()
   local activate_cmd = Activate_Venv()
   local app_name = vim.fn.input("App name: ")
-  vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
+  configure_term(activate_cmd .. "&& python manage.py startapp" .. app_name)
+  --vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
 end
 
 function M.Collectstatic()
   local activate_cmd = Activate_Venv()
-  vim.cmd("term " .. activate_cmd .. "&& python manage.py collectstatic")
+  configure_term(activate_cmd .. "&& python manage.py collectstatic")
+  --vim.cmd("term " .. activate_cmd .. "&& python manage.py collectstatic")
 end
 
 function M.CreateSuperUser()
   local activate_cmd = Activate_Venv()
-  vim.cmd("term " .. activate_cmd .. "&& python manage.py createsuperuser")
+  configure_term(activate_cmd .. "&& python manage.py createsuperuser")
+  --vim.cmd("term " .. activate_cmd .. "&& python manage.py createsuperuser")
 end
 
 return M
