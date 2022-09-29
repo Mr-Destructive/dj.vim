@@ -51,7 +51,13 @@ local function configure_term(command)
     )
   local term = { on_exit = config.on_exit }
   term.buffer = vim.api.nvim_create_buf(true, false)
-  local win = vim.api.nvim_open_win(term.buffer, true, window_config(width, height))
+  --local win = vim.api.nvim_open_win(term.buffer, true, window_config(width, height))
+  --local win = vim.api.nvim_open_win(term.buffer, true, window_config(width, height))
+  vim.cmd('split')
+  vim.api.nvim_command("terminal")
+  local win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_create_buf(true, true)
+  vim.api.nvim_win_set_buf(win, buf)
   config.command = command
   run_command = command
   vim.fn.termopen(run_command or { vim.opt.shell:get() }, config)
