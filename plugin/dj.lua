@@ -10,3 +10,4 @@ vim.keymap.set('n', '<leader>mm', "<cmd>lua require('django').Makemigrations()<C
 vim.keymap.set('n', '<leader>mg', "<cmd>lua require('django').Migrate()<CR>")
 vim.keymap.set('n', '<leader>ap', "<cmd>lua require('django').Start_App()<CR>")
 vim.keymap.set('n', '<leader>su', "<cmd>lua require('django').CreateSuperUser()<CR>")
+vim.keymap.set('n', '<leader>tm', "<cmd>lua require('django').StartTerminal()<CR>")

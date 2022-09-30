@@ -50,7 +50,7 @@ function! Add_App(name)
     execute ":e **\\settings.py | %s/APPS = \\[/APPS = \\[\r    ".a:name.",/g | :w"
 endfunction
 
-function! Create_app()
+function! Start_App()
     let name = input("Enter the app's name: ")
     let x = Venv_Config()
     let venv = x[0]
@@ -73,7 +73,7 @@ endfunction
 
 
 nnoremap <leader>dj :call Create_Project()<CR>
-nnoremap <leader>app :call Create_app()<CR>
+nnoremap <leader>app :call Start_App()<CR>
 nnoremap <leader>esg :call Edit_Settings()<CR>
 nnoremap <leader>rs :call Runserver()<CR>
 nnoremap <leader>mm :call Make_Migrations()<CR>
