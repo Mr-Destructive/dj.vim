@@ -53,7 +53,7 @@ local function Activate_Venv()
   if vim.fn.has("win32") == 1 then 
     activate_cmd = "!.\\" .. venv .. vpath
   elseif vim.fn.has("unix") == 1 or vim.fn.has("macunix") == 1 then
-    activate_cmd = "source " .. venv .. vpath
+    activate_cmd = "source " .. venv .. vpath .. " "
   end
   return activate_cmd
 end
@@ -142,7 +142,7 @@ end
 function M.Start_App()
   local activate_cmd = Activate_Venv()
   local app_name = vim.fn.input("App name: ")
-  configure_term(activate_cmd .. "&& python manage.py startapp" .. app_name)
+  configure_term(activate_cmd .. "&& python manage.py startapp " .. app_name)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
 end
 
