@@ -4,7 +4,7 @@ local _config = {
   command = nil, 
   layout = 'center',
   width = 0.8,
-  height = 0.8,
+  height = 0.0,
   row = 0,
   col = 0,
   win_api = { style = 'minimal', relative = 'editor' },
@@ -66,8 +66,6 @@ end
 -- split opne terminal and parse commands
 local function configure_term(command)
   ui = vim.api.nvim_list_uis()[1]
-  local width = math.floor((ui.width * 0.5)+ .5)
-  local height = math.floor((ui.height * 0.5) + 5)
   local config = vim.tbl_deep_extend(
       'force',
       vim.deepcopy(_config),
@@ -80,6 +78,8 @@ local function configure_term(command)
   vim.api.nvim_command("terminal")
   local win = vim.api.nvim_get_current_win()
   local buf = vim.api.nvim_create_buf(true, true)
+  vim.api.nvim_win_set_height(win, 10.0)
+  vim.cmd(vim.api.nvim_replace_termcodes('normal <C-w>r', true, true, true)) 
   vim.api.nvim_win_set_buf(win, buf)
   local activate_cmd = Activate_Venv()
   if not activate_cmd == nil then
@@ -164,5 +164,6 @@ end
 function M.StartTerminal()
     configure_term()
 end
+
 
 return M
