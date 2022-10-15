@@ -112,51 +112,51 @@ function M.Run_Server()
   if not Venv_Config() then
     Create_Venv()
   end
-  local activate_cmd = Activate_Venv()
-  configure_term(activate_cmd .. "&& python manage.py runserver")
+  local cmd = "runserver"
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. " && python manage.py runserver")
 end
 
 -- Run the shell command for a django project
 function M.Start_Shell()
-  local activate_cmd = Activate_Venv()
-  configure_term(activate_cmd .. "&& python manage.py shell")
+  local cmd = "shell"
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py shell")
 end
 
 -- Run the makemigrations command for a django project
 function M.Makemigrations()
-  local activate_cmd = Activate_Venv()
-  configure_term(activate_cmd .. "&& python manage.py makemigrations")
+  local cmd = "makemigrations"
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py makemigrations")
 end
 
 -- Run the migrate command for a django project
 function M.Migrate()
-  local activate_cmd = Activate_Venv()
-  configure_term(activate_cmd .. "&& python manage.py migrate")
+  local cmd = "migrate"
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py migrate")
 end
 
 -- Run the startapp command for a django project with name from user input
 function M.Start_App()
-  local activate_cmd = Activate_Venv()
   local app_name = vim.fn.input("App name: ")
-  configure_term(activate_cmd .. "&& python manage.py startapp " .. app_name)
+  local cmd = "startapp " .. app_name
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
 end
 
 -- Run the collectstatic command for a django project
 function M.Collectstatic()
-  local activate_cmd = Activate_Venv()
-  configure_term(activate_cmd .. "&& python manage.py collectstatic")
+  local cmd = "collectstatic"
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py collectstatic")
 end
 
 -- Run the createsuperuser command for a djagno project
 function M.CreateSuperUser()
-  local activate_cmd = Activate_Venv()
-  configure_term(activate_cmd .. "&& python manage.py createsuperuser")
+  local cmd = "createsuperuser"
+  RunCommand(cmd)
   --vim.cmd("term " .. activate_cmd .. "&& python manage.py createsuperuser")
 end
 
@@ -165,5 +165,12 @@ function M.StartTerminal()
     configure_term()
 end
 
+function M.RunCommand(command)
+  local activate_cmd = Activate_Venv()
+  if not command == "" then
+    local command = vim.fn.input("Command name: ") 
+  end
+  configure_term(activate_cmd .. " && python manage.py " .. command) 
+end
 
 return M
