@@ -91,6 +91,13 @@ local function configure_term(command)
   vim.fn.termopen(run_command or { vim.opt.shell:get() }, config)
 end
 
+local function RunCommand(command)
+  local activate_cmd = Activate_Venv()
+  if not command == "" then
+    local command = vim.fn.input("Command name: ") 
+  end
+  configure_term(activate_cmd .. " && python manage.py " .. command) 
+end
 
 -- Create a project with name as input from user
 function M.Create_Project()
@@ -165,12 +172,8 @@ function M.StartTerminal()
     configure_term()
 end
 
-function M.RunCommand(command)
-  local activate_cmd = Activate_Venv()
-  if not command == "" then
-    local command = vim.fn.input("Command name: ") 
-  end
-  configure_term(activate_cmd .. " && python manage.py " .. command) 
+function M.RunCustomCommandCommand(command)
+    RunCustomCommand(command)
 end
 
 return M
