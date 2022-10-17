@@ -93,7 +93,7 @@ end
 
 local function RunCommand(command)
   local activate_cmd = Activate_Venv()
-  if not command == "" then
+  if not command then
     local command = vim.fn.input("Command name: ") 
   end
   configure_term(activate_cmd .. " && python manage.py " .. command) 
@@ -172,8 +172,9 @@ function M.StartTerminal()
     configure_term()
 end
 
-function M.RunCustomCommandCommand(command)
-    RunCustomCommand(command)
+function M.RunCustomCommand(command)
+    RunCommand(command)
 end
+
 
 return M
