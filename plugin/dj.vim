@@ -1,10 +1,10 @@
-function Create_Project()
+function! Create_Project()
     let venv = ".venv"
     let project_name = input("Enter the project name: ")
     exe ":term django-admin startproject ".project_name." ."
 endfunction
 
-function Venv_Config()
+function! Venv_Config()
     let venv = "env"
     if isdirectory("venv") == 1
         let venv = "venv"
@@ -67,6 +67,24 @@ function! Run_Shell()
     execute ":term ".venv.vpath."python manage.py shell"
 endfunction
 
+function! Start_Terminal()
+    let x = Venv_Config()
+    let venv = x[0]
+    let vpath = x[1]
+    execute ":term ".venv.vpath
+endfunction
+
+function! Run_Command(command)
+    let command = a:command
+    if a:command != ""
+        let command= input("Enter the command : ")
+    endif
+    let x = Venv_Config()
+    let venv = x[0]
+    let vpath = x[1]
+    execute ":term ".venv.vpath."python manage.py ".command
+endfunction
+
 function! Edit_Settings()
     execute ":e **\\settings.py"
 endfunction
@@ -78,3 +96,5 @@ nnoremap <leader>esg :call Edit_Settings()<CR>
 nnoremap <leader>rs :call Runserver()<CR>
 nnoremap <leader>mm :call Make_Migrations()<CR>
 nnoremap <leader>mg :call Migrate()<CR>
+nnoremap <leader>st :call Start_Terminal()<CR>
+nnoremap <leader>rc :call Run_Command("")<CR>
