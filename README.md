@@ -32,3 +32,4 @@ nnoremap yourkeys :lua require("django").FUNCTION_NAME
 - <leader>ap -> `Start_App()`
 - <leader>su -> `CreateSuperUser()`
 - <leader>tm -> `StartTerminal()`
+- <leader>cs -> `RunCustomCommand()`

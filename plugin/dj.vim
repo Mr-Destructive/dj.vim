@@ -25,25 +25,27 @@ function! Venv_Config()
     return [venv, vpath]
 endfunction
 
-function! Runserver()
+function! Run_Command(command)
+    let command = a:command
+    if a:command == ""
+        let command= input("Enter the command : ")
+    endif
     let x = Venv_Config()
     let venv = x[0]
     let vpath = x[1]
-    execute ":term ".venv.vpath."python manage.py runserver"
+    execute ":term ".venv.vpath."python manage.py ".command
+endfunction
+
+function! Runserver()
+    call Run_Command("runserver")
 endfunction
 
 function! Make_Migrations()
-    let x = Venv_Config()
-    let venv = x[0]
-    let vpath = x[1]
-    execute ":term ".venv.vpath."python manage.py makemigrations"
+    call Run_Command("makemigrations")
 endfunction
 
 function! Migrate()
-    let x = Venv_Config()
-    let venv = x[0]
-    let vpath = x[1]
-    execute ":term ".venv.vpath."python manage.py migrate"
+    call Run_Command("migrate")
 endfunction
 
 function! Add_App(name)
@@ -61,10 +63,7 @@ function! Start_App()
 endfunction
 
 function! Run_Shell()
-    let x = Venv_Config()
-    let venv = x[0]
-    let vpath = x[1]
-    execute ":term ".venv.vpath."python manage.py shell"
+    call Run_Command("shell")
 endfunction
 
 function! Start_Terminal()
@@ -74,16 +73,6 @@ function! Start_Terminal()
     execute ":term ".venv.vpath
 endfunction
 
-function! Run_Command(command)
-    let command = a:command
-    if a:command != ""
-        let command= input("Enter the command : ")
-    endif
-    let x = Venv_Config()
-    let venv = x[0]
-    let vpath = x[1]
-    execute ":term ".venv.vpath."python manage.py ".command
-endfunction
 
 function! Edit_Settings()
     execute ":e **\\settings.py"
