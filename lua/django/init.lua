@@ -177,5 +177,10 @@ function M.RunCustomCommand(command)
     RunCommand(command)
 end
 
+function M.RunPGCLI(command)
+    local db_string = vim.fn.input("Enter the DB URI: ")
+    configure_term("pipx run pgcli " .. db_string)
+end
+
 
 return M
