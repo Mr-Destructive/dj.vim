@@ -78,6 +78,21 @@ function! Edit_Settings()
     execute ":e **\\settings.py"
 endfunction
 
+function! Run_Custom_Command(command)
+    let command = a:command
+    if a:command == ""
+        let command= input("Enter the command : ")
+    endif
+    let x = Venv_Config()
+    let venv = x[0]
+    let vpath = x[1]
+    execute ":term ".venv.vpath.command
+endfunction
+
+function! RunPGCLI(command)
+    let db_string = input("Enter the db string: ")
+    call Run_Custom_Command("pipx run pgcli " .. db_string)
+end
 
 nnoremap <leader>dj :call Create_Project()<CR>
 nnoremap <leader>app :call Start_App()<CR>
@@ -87,3 +102,4 @@ nnoremap <leader>mm :call Make_Migrations()<CR>
 nnoremap <leader>mg :call Migrate()<CR>
 nnoremap <leader>st :call Start_Terminal()<CR>
 nnoremap <leader>rc :call Run_Command("")<CR>
+nnoremap <leader>db :call RunPGCLI()<CR>
