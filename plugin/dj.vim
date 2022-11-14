@@ -94,6 +94,11 @@ function! RunPGCLI(command)
     call Run_Custom_Command("pipx run pgcli " .. db_string)
 end
 
+function! Install_Package()
+    let package = input("Enter the package name: ")
+    call Run_Custom_Command("pip install ".. pacakge)
+end
+
 nnoremap <leader>dj :call Create_Project()<CR>
 nnoremap <leader>app :call Start_App()<CR>
 nnoremap <leader>esg :call Edit_Settings()<CR>
@@ -103,3 +108,5 @@ nnoremap <leader>mg :call Migrate()<CR>
 nnoremap <leader>st :call Start_Terminal()<CR>
 nnoremap <leader>rc :call Run_Command("")<CR>
 nnoremap <leader>db :call RunPGCLI()<CR>
+nnoremap <leader>cs :call Run_Custom_Command("")<CR>
+nnoremap <leader>pip :call Install_Package()<CR>
