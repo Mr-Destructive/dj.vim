@@ -111,7 +111,6 @@ function M.Create_Project()
   activate_cmd = Activate_Venv()
   create_cmd = Create_Venv()
   configure_term("mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name .. " . ")
-  --vim.cmd("term mkdir " .. project_name .. " && cd " .. project_name .. " && " .. create_cmd ..  " && " .. activate_cmd .. " && pip install django" .. " && django-admin startproject "..project_name .. " . ")
 end
 
 -- Run the runserver command for a django project
@@ -122,28 +121,24 @@ function M.Run_Server()
   end
   local cmd = "runserver"
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. " && python manage.py runserver")
 end
 
 -- Run the shell command for a django project
 function M.Start_Shell()
   local cmd = "shell"
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. "&& python manage.py shell")
 end
 
 -- Run the makemigrations command for a django project
 function M.Makemigrations()
   local cmd = "makemigrations"
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. "&& python manage.py makemigrations")
 end
 
 -- Run the migrate command for a django project
 function M.Migrate()
   local cmd = "migrate"
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. "&& python manage.py migrate")
 end
 
 -- Run the startapp command for a django project with name from user input
@@ -151,21 +146,18 @@ function M.Start_App()
   local app_name = vim.fn.input("App name: ")
   local cmd = "startapp " .. app_name
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. "&& python manage.py startapp " .. app_name)
 end
 
 -- Run the collectstatic command for a django project
 function M.Collectstatic()
   local cmd = "collectstatic"
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. "&& python manage.py collectstatic")
 end
 
 -- Run the createsuperuser command for a djagno project
 function M.CreateSuperUser()
   local cmd = "createsuperuser"
   RunCommand(cmd)
-  --vim.cmd("term " .. activate_cmd .. "&& python manage.py createsuperuser")
 end
 
 -- Utility for a simple terminal split with venv activated
@@ -182,5 +174,9 @@ function M.RunPGCLI(command)
     configure_term("pipx run pgcli " .. db_string)
 end
 
+function M.PipInstall()
+    local package = vim.fn.input("Enter the package name: ")
+    configure_term("pip install " .. package)
+end
 
 return M

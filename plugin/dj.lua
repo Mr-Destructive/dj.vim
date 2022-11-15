@@ -13,3 +13,4 @@ vim.keymap.set('n', '<leader>su', "<cmd>lua require('django').CreateSuperUser()<
 vim.keymap.set('n', '<leader>tm', "<cmd>lua require('django').StartTerminal()<CR>")
 vim.keymap.set('n', '<leader>cs', "<cmd>lua require('django').RunCustomCommand()<CR>")
 vim.keymap.set('n', '<leader>db', "<cmd>lua require('django').RunPGCLI()<CR>")
+vim.keymap.set('n', '<leader>pip', "<cmd>lua require('django').PipInstall()<CR>")
